@@ -11,7 +11,7 @@ running = True
 # initialize pygame and window
 pygame.init()
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("demo")
+pygame.display.set_caption("please work")
 # set up sprites
 my_sprites = pygame.sprite.Group()
 
@@ -63,8 +63,6 @@ while not done:
             myblock2.rect.x += -10
         if event.key == pygame.K_d:
             myblock2.rect.x += 10
-
-
 
 
     #logic
