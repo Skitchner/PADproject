@@ -88,6 +88,15 @@ def check_and_move(sprite, direction):
         sprite.rect.x -= 10
     if direction == "RIGHT":
         sprite.rect.x += 10
+
+    if direction == "w":
+        sprite.rect.y -= 10
+    if direction == "s":
+        sprite.rect.y += 10
+    if direction == "a":
+        sprite.rect.x -= 10
+    if direction == "d":
+        sprite.rect.x += 10
     # more  code  for other directions
     block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
     # check for collisions
@@ -104,26 +113,19 @@ def check_and_move(sprite, direction):
 
 
 
-        if direction == "w":
-            sprite.rect.y += 10
-        if direction == "s":
-            sprite.rect.y -= 10
-        if direction == "a":
-            sprite.rect.x += 10
-        if direction == "d":
-            sprite.rect.x -= 10
+
             # more  code  for other directions
         block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
         # check for collisions
         if len(block_hits) > 0:
             if direction == "w":
-                sprite.rect.y += 10
-            if direction == "s":
                 sprite.rect.y -= 10
+            if direction == "s":
+                sprite.rect.y += 10
             if direction == "a":
-                sprite.rect.x += 10
-            if direction == "d":
                 sprite.rect.x -= 10
+            if direction == "d":
+                sprite.rect.x += 10
 
 
 
@@ -133,7 +135,6 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
 
-    print("2")
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_UP:
             check_and_move(myblock, "UP")
@@ -143,11 +144,6 @@ while not done:
             check_and_move(myblock, "LEFT")
         if event.key == pygame.K_RIGHT:
             check_and_move(myblock, "RIGHT")
-
-
-
-
-    if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_w:
             check_and_move(myblock2, "w")
         if event.key == pygame.K_s:
@@ -156,8 +152,6 @@ while not done:
             check_and_move(myblock2, "a")
         if event.key == pygame.K_d:
             check_and_move(myblock2, "d")
-
-
 
 
 
