@@ -77,20 +77,6 @@ wall_group.add(wall4)
 print("1")
 done = False
 clock = pygame.time.Clock()
-# main loop
-#
-# def move_check(my_sprite):
-#     block_hits = pygame.sprite.spritecollide(my_sprite, wall_group, False)
-#     if len(block_hits) > 0:
-#         print("block_hits")
-#         if direction == 0:
-#             my_sprite.rect.y = my_sprite.rect.y - 30
-#         if direction == 1:
-#             my_sprite.rect.x = my_sprite.rect.x - 30
-#         if direction == 2:
-#             my_sprite.rect.y = my_sprite.rect.y + 30
-#         if direction == 3:
-#             my_sprite.rect.x = my_sprite.rect.x + 30
 
 def check_and_move(sprite, direction):
     # make the move
@@ -99,9 +85,9 @@ def check_and_move(sprite, direction):
     if direction == "DOWN":
         sprite.rect.y -= 10
     if direction == "LEFT":
-        sprite.rect.x -= 10
+        sprite.rect.x += 10
     if direction == "RIGHT":
-        sprite.rect.x -= 10
+        sprite.rect.x += 10
     # more  code  for other directions
     block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
     # check for collisions
@@ -111,11 +97,11 @@ def check_and_move(sprite, direction):
         if direction == "DOWN":
             sprite.rect.y += 10
         if direction == "LEFT":
-            sprite.rect.x += 10
+            sprite.rect.x -= 10
         if direction == "RIGHT":
-            sprite.rect.x += 10
+            sprite.rect.x -= 10
 
-        # if collision, undo move
+
 
 while not done:
 

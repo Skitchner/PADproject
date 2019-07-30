@@ -31,16 +31,27 @@ class Block(pygame.sprite.Sprite):
         self.rect.y = y
 
 
+class Wall(pygame.sprite.Sprite):
+    def __init__(self, color, width, height, x, y):
+        super().__init__()
 
+        self.image = pygame.Surface([width, height])
+        self.image.fill(color)
 
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+#these are the players
 myblock = Block(LBLUE, 30, 30, 50, 50)
 myblock2 = Block(BLUE, 20, 20, 100, 100)
 my_sprites.add(myblock)
 my_sprites.add(myblock2)
 
+#these are the walls
 wall_group = pygame.sprite.Group()
 #first is thickness
-# thried number is left nad right
+# third number is left nad right
 # last number is moving up and down
 wall = Block(PURPLE, 20, 300, 200, 250)
 wall2 = Block(YELLOW, 700, 30, 260, 300)
@@ -61,36 +72,34 @@ wall_group.add(wall4)
 
 
 
+#this is how the player moves and how it hits the walls
 
 print("1")
 done = False
 clock = pygame.time.Clock()
-# main loop
 
-def move_check():
-    block_hits = pygame.sprite.spritecollide(myblock, wall_group, False)
+def check_and_move(sprite, direction):
+    # make the move
+    if direction == "UP":
+        sprite.rect.y -= 10
+    if direction == "DOWN":
+        sprite.rect.y -= 10
+    if direction == "LEFT":
+        sprite.rect.x += 10
+    if direction == "RIGHT":
+        sprite.rect.x += 10
+    # more  code  for other directions
+    block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
+    # check for collisions
     if len(block_hits) > 0:
-        print("block_hits")
-        if direction == 0:
-            myblock.rect.y = myblock.rect.y - 30
-        if direction == 1:
-            myblock.rect.x = myblock.rect.x - 30
-        if direction == 2:
-            myblock.rect.y = myblock.rect.y + 30
-        if direction == 3:
-            myblock.rect.x = myblock.rect.x + 30
-
-
-
-
-
-
-
-
-        # when  you hit a wall  you  will be teleported back out of the box
-
-
-
+        if direction == "UP":
+            sprite.rect.y += 10
+        if direction == "DOWN":
+            sprite.rect.y += 10
+        if direction == "LEFT":
+            sprite.rect.x -= 10
+        if direction == "RIGHT":
+            sprite.rect.x -= 10
 
 
 
@@ -99,35 +108,30 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-    move_check()
 
     print("2")
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_UP:
-            myblock.rect.y += -10
-            direction = 0
+            check_and_move(myblock, "UP")
         if event.key == pygame.K_DOWN:
-            myblock.rect.y += 10
-            direction = 2
+            check_and_move(myblock, "DOWN")
         if event.key == pygame.K_LEFT:
-            myblock.rect.x += -10
-            direction = 3
+            check_and_move(myblock, "LEFT")
         if event.key == pygame.K_RIGHT:
-            myblock.rect.x += 10
-            direction = 1
+            check_and_move(myblock, "RIGHT")
 
 
 
     print("3")
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_w:
-            myblock2.rect.y += -10
+            check_and_move(myblock2, "w")
         if event.key == pygame.K_s:
-            myblock2.rect.y += 10
+            check_and_move(myblock2, "s")
         if event.key == pygame.K_a:
-            myblock2.rect.x += -10
+            check_and_move(myblock2, "a")
         if event.key == pygame.K_d:
-            myblock2.rect.x += 10
+            check_and_move(myblock2, "d")
             print('4')
 
 
@@ -150,4 +154,3 @@ while not done:
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
-
