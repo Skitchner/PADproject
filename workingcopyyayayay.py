@@ -51,24 +51,25 @@ my_sprites.add(myblock2)
 #these are the walls
 wall_group = pygame.sprite.Group()
 #first is thickness
-# third number is left nad right
+# thried number is left nad right
 # last number is moving up and down
-wall = Block(PURPLE, 20, 300, 200, 250)
-wall2 = Block(YELLOW, 700, 30, 260, 300)
+wall = Block(PURPLE, 20, 490, 80, 0)
+wall2 = Block(YELLOW, 400, 20, 0, 550)
 wall3 = Block(BLACK, 500, 400, 400, 500)
-wall4 = Block(YELLOW, 60, 350, 200, 25)
-# wall5 = Block(PURPLE, 20, 10, 760, 200)
+#wall4 = Block(YELLOW, 60, 350, 200, 25)
+wall5 = Block(PURPLE, 20, 550, 0,0)
 # wall6 = Block(YELLOW,20, 580, 760, 20)
 # wall7 = Block(PURPLE, 190, 50, 20, 500)
 # wall8 = Block(YELLOW, 590, 50, 20, 500)
 wall_group.add(wall)
 wall_group.add(wall2)
 wall_group.add(wall3)
-wall_group.add(wall4)
-# wall_group.add(wall5)
+#wall_group.add(wall4)
+wall_group.add(wall5)
 # wall_group.add(wall6)
 # wall_group.add(wall7)
 # wall_group.add(wall8)
+
 
 
 
