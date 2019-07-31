@@ -99,7 +99,10 @@ def check_and_move(sprite, direction):
     # more  code  for other directions
     block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
     # check for collisions
-
+    if len(block_hits) > 0:
+        # returns the block to its spawn point (currently 30,30)
+        sprite.rect.x = 30
+        sprite.rect.y = 30
 
 
 while not done:
