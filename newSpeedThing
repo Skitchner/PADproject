@@ -1,0 +1,143 @@
+import pygame
+
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+size = (800, 600)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+PURPLE = (255, 0, 255)
+YELLOW = (255, 255, 0)
+LBLUE = (173, 216, 230)
+BLUE = (0, 0, 255)
+speed1 = 3
+running = True
+direction = 0
+
+pygame.init()
+screen = pygame.display.set_mode(size)
+pygame.display.set_caption("please work")
+my_sprites = pygame.sprite.Group()
+
+
+class Block(pygame.sprite.Sprite):
+    def __init__(self, color, width, height, x, y,xspeed,yspeed):
+        super().__init__()
+
+        self.image = pygame.Surface([width, height])
+        self.image.fill(color)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.xspeed=xspeed
+        self.yspeed=yspeed
+
+class Wall(pygame.sprite.Sprite):
+    def __init__(self, color, width, height, x, y):
+        super().__init__()
+
+        self.image = pygame.Surface([width, height])
+        self.image.fill(color)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
+# these are the players
+myblock = Block(LBLUE, 30, 30, 50, 50,0,0)
+myblock2 = Block(BLUE, 20, 20, 100, 100,0,0)
+my_sprites.add(myblock)
+my_sprites.add(myblock2)
+
+# these are the walls
+wall_group = pygame.sprite.Group()
+# first is thickness
+# 3rd number is left nad right350
+# last number is moving up and down
+purple2 = Block(PURPLE, 20, 490, 80, 0,0,0)
+wall2 = Block(YELLOW, 400, 20, 0, 550,0,0)
+wall3 = Block(YELLOW, 240, 20, 80, 480,0,0)
+vertical_yellow = Block(YELLOW, 20, 300, 390, 270,0,0)
+verticalY2 = Block(YELLOW, 20, 300, 300, 200,0,0)
+purple_edge = Block(PURPLE, 20, 560, 0, 0,0,0)
+wall6 = Block(GREEN, 20, 580, 300, 20,0,0)
+# wall7 = Block(PURPLE, 190, 50, 20, 500)
+# wall8 = Block(YELLOW, 590, 50, 20, 500)
+wall_group.add(purple2)
+wall_group.add(wall2)
+wall_group.add(vertical_yellow)
+wall_group.add(purple_edge)
+wall_group.add(wall3)
+wall_group.add(verticalY2)
+# wall_group.add(wall8)
+
+# this is how the player moves and how it hits the walls
+print("1")
+done = False
+clock = pygame.time.Clock()
+
+
+def check_and_move(sprite):
+    # make the move for the relevant sprite
+    sprite.rect.y += sprite.yspeed
+    sprite.rect.x += sprite.xspeed
+    block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
+    # check for collisions
+    if len(block_hits) > 0:
+        # returns the block to its spawn point (currently 30,30)
+        sprite.rect.x = 30
+        sprite.rect.y = 30
+        sprite.xspeed=0
+        sprite.yspeed=0
+
+while not done:
+    # quitting thing
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+    # create the list of keypressed (bool)
+    keysPressed = pygame.key.get_pressed()
+    gameSpeed = 0.25
+    # run through the list and check keys by their ID and run the function for them
+    if keysPressed[pygame.K_UP]:
+        myblock.yspeed -= gameSpeed
+    elif keysPressed[pygame.K_DOWN]:
+        myblock.yspeed += gameSpeed
+    else:
+        myblock.yspeed=0
+
+    if keysPressed[pygame.K_LEFT]:
+        myblock.xspeed -= gameSpeed
+    elif keysPressed[pygame.K_RIGHT]:
+        myblock.xspeed += gameSpeed
+    else:
+        myblock.xspeed=0
+
+    if keysPressed[pygame.K_w]:
+        myblock2.yspeed -= gameSpeed
+    elif keysPressed[pygame.K_s]:
+        myblock2.yspeed += gameSpeed
+    else:
+        myblock2.yspeed=0
+
+    if keysPressed[pygame.K_a]:
+        myblock2.xspeed -= gameSpeed
+    elif keysPressed[pygame.K_d]:
+        myblock2.xspeed += gameSpeed
+    else:
+        myblock2.xspeed=0
+
+    check_and_move(myblock)
+    check_and_move(myblock2)
+
+    # screen update thingy
+    screen.fill(WHITE)
+    my_sprites.draw(screen)
+    wall_group.draw(screen)
+
+    # update
+    my_sprites.update()
+    pygame.display.flip()
+    clock.tick(60)
+pygame.quit()
