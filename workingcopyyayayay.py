@@ -2,7 +2,7 @@ import pygame
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-size = (1000, 800)
+size = (800, 600)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 PURPLE = (255, 0, 255)
@@ -13,6 +13,7 @@ speed1 = 3
 running = True
 direction = 0
 
+
 pygame.init()
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("please work")
@@ -22,9 +23,14 @@ my_sprites = pygame.sprite.Group()
 class Block(pygame.sprite.Sprite):
     def __init__(self, color, width, height, x, y):
         super().__init__()
+        if color == LBLUE:
+            big_image = pygame.image.load("/Users/sarahkitchner/Downloads/redracecar.png")
+            self.image = pygame.transform.scale(big_image, (width, height))
+        if color == BLUE:
+            small_image = pygame.image.load("/Users/sarahkitchner/Downloads/blueracecar.png")
+            self.image = pygame.transform.scale(small_image, (width, height))
 
-        self.image = pygame.Surface([width, height])
-        self.image.fill(color)
+        #self.image.fill(color)
 
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -54,13 +60,13 @@ wall_group = pygame.sprite.Group()
 # first is thickness
 # 3rd number is left nad right350
 # last number is moving up and down
-purple2 = Block(PURPLE, 20, 490, 80, 0)
-wall2 = Block(YELLOW, 400, 20, 0, 550)
-wall3 = Block(YELLOW, 240, 20, 80, 480)
-vertical_yellow = Block(YELLOW, 20, 300, 390, 270)
-verticalY2 = Block(YELLOW, 20, 300, 300, 200)
-purple_edge = Block(PURPLE, 20, 560, 0, 0)
-wall6 = Block(GREEN,20, 580, 300, 20)
+purple2 = Wall(PURPLE, 20, 490, 80, 0)
+wall2 = Wall(YELLOW, 400, 20, 0, 550)
+wall3 = Wall(YELLOW, 240, 20, 80, 480)
+vertical_yellow = Wall(YELLOW, 20, 300, 390, 270)
+verticalY2 = Wall(YELLOW, 20, 300, 300, 200)
+purple_edge = Wall(PURPLE, 20, 560, 0, 0)
+wall6 = Wall(GREEN,20, 580, 300, 20)
 # wall7 = Block(PURPLE, 190, 50, 20, 500)
 # wall8 = Block(YELLOW, 590, 50, 20, 500)
 wall_group.add(purple2)
@@ -100,20 +106,19 @@ def check_and_move(sprite, direction):
     block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
     # check for collisions
     if len(block_hits) > 0:
-        # returns the block to its spawn point (currently 30,30)
         sprite.rect.x = 30
         sprite.rect.y = 30
 
 
 while not done:
-    #quitting thing
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-    #create the list of keypressed (bool)        
     keysPressed = pygame.key.get_pressed()
-    
-    #run through the list and check keys by their ID and run the function for them
+
+
+
     if keysPressed[pygame.K_UP]:
         check_and_move(myblock, "UP")
     if keysPressed[pygame.K_DOWN]:
@@ -130,8 +135,7 @@ while not done:
         check_and_move(myblock2, "a")
     if keysPressed[pygame.K_d]:
         check_and_move(myblock2, "d")
-    
-    #screen update thingy
+
     screen.fill(WHITE)
     my_sprites.draw(screen)
     wall_group.draw(screen)
