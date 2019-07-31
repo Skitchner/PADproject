@@ -2,7 +2,7 @@ import pygame
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-size = (800, 600)
+size = (1000, 800)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 PURPLE = (255, 0, 255)
@@ -44,8 +44,8 @@ class Wall(pygame.sprite.Sprite):
 
 
 # these are the players
-myblock = Block(LBLUE, 30, 30, 50, 50)
-myblock2 = Block(BLUE, 20, 20, 100, 100)
+myblock = Block(LBLUE, 20, 20, 55, 50)
+myblock2 = Block(BLUE, 20, 20, 25, 50)
 my_sprites.add(myblock)
 my_sprites.add(myblock2)
 
