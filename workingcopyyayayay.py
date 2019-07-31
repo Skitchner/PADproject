@@ -100,42 +100,20 @@ def check_and_move(sprite, direction):
     block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
     # check for collisions
     if len(block_hits) > 0:
+        # returns the block to its spawn point (currently 30,30)
         sprite.rect.x = 30
         sprite.rect.y = 30
-        if direction == "UP":
-            sprite.rect.y += 10
-        if direction == "DOWN":
-            sprite.rect.y -= 10
-        if direction == "LEFT":
-            sprite.rect.x += 10
-        if direction == "RIGHT":
-            sprite.rect.x -= 10
-
-            # more  code  for other directions
-        block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
-        # check for collisions
-        if len(block_hits) > 0:
-            sprite.rect.x = 30
-            sprite.rect.y = 30
-            if direction == "w":
-                sprite.rect.y += 10
-            if direction == "s":
-                sprite.rect.y -= 10
-            if direction == "a":
-                sprite.rect.x += 10
-            if direction == "d":
-                sprite.rect.x -= 10
 
 
 while not done:
-
+    #quitting thing
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+    #create the list of keypressed (bool)        
     keysPressed = pygame.key.get_pressed()
-
-
-
+    
+    #run through the list and check keys by their ID and run the function for them
     if keysPressed[pygame.K_UP]:
         check_and_move(myblock, "UP")
     if keysPressed[pygame.K_DOWN]:
@@ -152,7 +130,8 @@ while not done:
         check_and_move(myblock2, "a")
     if keysPressed[pygame.K_d]:
         check_and_move(myblock2, "d")
-
+    
+    #screen update thingy
     screen.fill(WHITE)
     my_sprites.draw(screen)
     wall_group.draw(screen)
