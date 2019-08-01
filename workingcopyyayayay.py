@@ -9,16 +9,11 @@ PURPLE = (255, 0, 255)
 YELLOW = (255, 255, 0)
 LBLUE = (173, 216, 230)
 BLUE = (0, 0, 255)
-speed1 = 3
-running = True
-direction = 0
-
 
 pygame.init()
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("please work")
+pygame.display.set_caption("Racing Game")
 my_sprites = pygame.sprite.Group()
-
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, color, width, height, x, y):
@@ -36,7 +31,6 @@ class Block(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-
 class Wall(pygame.sprite.Sprite):
     def __init__(self, color, width, height, x, y):
         super().__init__()
@@ -47,7 +41,6 @@ class Wall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
 
 class movingWall(Wall):
     def __init__(self,color,width,height,x,y,yspeed,xspeed,wallBound):
