@@ -49,6 +49,22 @@ class Wall(pygame.sprite.Sprite):
         self.rect.y = y
 
 
+class movingWall(Wall):
+    def __init__(self,color,width,height,x,y,yspeed,xspeed,wallBound):
+        Wall.__init__(self,color,width,height,x,y)
+        self.direction = direction
+        self.distanceMoved=yspeed
+        self.yspeed=yspeed
+        self.xspeed=xspeed
+        self.wallBound = wallBound
+    def updateMovement(self):
+        self.rect.y += self.yspeed
+        self.distanceMoved += self.yspeed
+        if abs(self.distanceMoved) > self.wallBound:
+            self.distanceMoved = 0
+            self.yspeed = self.yspeed * -1
+
+
 # these are the players
 myblock = Block(LBLUE, 20, 20, 55, 50)
 myblock2 = Block(BLUE, 20, 20, 25, 50)
@@ -71,6 +87,7 @@ side1 = Wall(BLACK, 20, 700, -10, 0)
 side2 = Wall(BLACK, 20, 700, 785, 0)
 side_Y2m = Wall(GREEN, 300,20, 300, 190)
 side_Y3 = Wall(GREEN, 250, 20, 390, 250)
+movingWall1 = movingWall(BLUE,20,20,450,175,1,0,100)
 # wall8 = Block(YELLOW, 590, 50, 20, 500)
 wall_group.add(purple2)
 wall_group.add(wall2)
@@ -83,7 +100,7 @@ wall_group.add(side2)
 wall_group.add(side3)
 wall_group.add(side_Y2m)
 wall_group.add(side_Y3)
-
+wall_group.add(movingWall1)
 
 
 Winners_spot = pygame.sprite.Group()
@@ -158,6 +175,7 @@ while not done:
 
     check_and_move(myblock)
     check_and_move(myblock2)
+    movingWall1.updateMovement()
     victory_wall(myblock)
     victory_wall(myblock2)
     screen.fill(WHITE)
