@@ -83,59 +83,58 @@ done = False
 clock = pygame.time.Clock()
 
 
-def check_and_move(sprite, direction):
-    # make the move for player1
-    if direction == "UP":
-        sprite.rect.y -= 10
-    if direction == "DOWN":
-        sprite.rect.y += 10
-    if direction == "LEFT":
-        sprite.rect.x -= 10
-    if direction == "RIGHT":
-        sprite.rect.x += 10
-    # make the move for player 2
-    if direction == "w":
-        sprite.rect.y -= 10
-    if direction == "s":
-        sprite.rect.y += 10
-    if direction == "a":
-        sprite.rect.x -= 10
-    if direction == "d":
-        sprite.rect.x += 10
-    # more  code  for other directions
+def check_and_move(sprite):
+    # make the move for the relevant sprite
+    sprite.rect.y += sprite.yspeed
+    sprite.rect.x += sprite.xspeed
     block_hits = pygame.sprite.spritecollide(sprite, wall_group, False)
     # check for collisions
     if len(block_hits) > 0:
+        # returns the block to its spawn point (currently 30,30)
         sprite.rect.x = 30
         sprite.rect.y = 30
-
+        sprite.xspeed=0
+        sprite.yspeed=0
 
 while not done:
-
+    # quitting thing
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+    # create the list of keypressed (bool)
     keysPressed = pygame.key.get_pressed()
-
-
-
+    gameSpeed = 0.25
+    # run through the list and check keys by their ID and run the function for them
     if keysPressed[pygame.K_UP]:
-        check_and_move(myblock, "UP")
-    if keysPressed[pygame.K_DOWN]:
-        check_and_move(myblock, "DOWN")
-    if keysPressed[pygame.K_LEFT]:
-        check_and_move(myblock, "LEFT")
-    if keysPressed[pygame.K_RIGHT]:
-        check_and_move(myblock, "RIGHT")
-    if keysPressed[pygame.K_w]:
-        check_and_move(myblock2, "w")
-    if keysPressed[pygame.K_s]:
-        check_and_move(myblock2, "s")
-    if keysPressed[pygame.K_a]:
-        check_and_move(myblock2, "a")
-    if keysPressed[pygame.K_d]:
-        check_and_move(myblock2, "d")
+        myblock.yspeed -= gameSpeed
+    elif keysPressed[pygame.K_DOWN]:
+        myblock.yspeed += gameSpeed
+    else:
+        myblock.yspeed=0
 
+    if keysPressed[pygame.K_LEFT]:
+        myblock.xspeed -= gameSpeed
+    elif keysPressed[pygame.K_RIGHT]:
+        myblock.xspeed += gameSpeed
+    else:
+        myblock.xspeed=0
+
+    if keysPressed[pygame.K_w]:
+        myblock2.yspeed -= gameSpeed
+    elif keysPressed[pygame.K_s]:
+        myblock2.yspeed += gameSpeed
+    else:
+        myblock2.yspeed=0
+
+    if keysPressed[pygame.K_a]:
+        myblock2.xspeed -= gameSpeed
+    elif keysPressed[pygame.K_d]:
+        myblock2.xspeed += gameSpeed
+    else:
+        myblock2.xspeed=0
+
+    check_and_move(myblock)
+    check_and_move(myblock2)
     screen.fill(WHITE)
     my_sprites.draw(screen)
     wall_group.draw(screen)
