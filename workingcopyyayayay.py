@@ -45,7 +45,6 @@ class Wall(pygame.sprite.Sprite):
 class movingWall(Wall):
     def __init__(self,color,width,height,x,y,yspeed,xspeed,wallBound):
         Wall.__init__(self,color,width,height,x,y)
-        self.direction = direction
         self.distanceMoved=yspeed
         self.yspeed=yspeed
         self.xspeed=xspeed
