@@ -1,0 +1,323 @@
+import pygame
+pygame.display.init()
+pygame.init()
+
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+size = (800, 600)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+PURPLE = (255, 0, 255)
+YELLOW = (255, 255, 0)
+LBLUE = (173, 216, 230)
+BLUE = (0, 0, 255)
+speed1 = 3
+running = True
+direction = 0
+
+
+pygame.init()
+screen = pygame.display.set_mode(size)
+pygame.display.set_caption("Racing Game")
+my_sprites = pygame.sprite.Group()
+
+
+class Block(pygame.sprite.Sprite):
+    def __init__(self, color, width, height, x, y):
+        super().__init__()
+        if color == LBLUE:
+            big_image = pygame.image.load("/Users/sarahkitchner/Downloads/redracecar.png")
+            self.image = pygame.transform.scale(big_image, (width, height))
+        if color == BLUE:
+            small_image = pygame.image.load("/Users/sarahkitchner/Downloads/blueracecar.png")
+            self.image = pygame.transform.scale(small_image, (width, height))
+
+        # self.image.fill(color)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
+class Wall(pygame.sprite.Sprite):
+    def __init__(self, color, width, height, x, y):
+        super().__init__()
+
+        self.image = pygame.Surface([width, height])
+        self.image.fill(color)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
+
+class movingWall(Wall):
+    def __init__(self, color, width, height, x, y, yspeed, xspeed, wallBound):
+        Wall.__init__(self, color, width, height, x, y)
+        self.xdistanceMoved = 0
+        self.ydistanceMoved = 0
+        self.yspeed = yspeed
+        self.xspeed = xspeed
+
+class movingWall(Wall):
+    def __init__(self,color,width,height,x,y,yspeed,xspeed,wallBound):
+        Wall.__init__(self,color,width,height,x,y)
+        self.distanceMoved=yspeed
+        self.yspeed=yspeed
+        self.xspeed=xspeed
+        self.wallBound = wallBound
+
+    def updateMovement(self):
+        self.rect.y += self.yspeed
+        self.ydistanceMoved += self.yspeed
+        if abs(self.ydistanceMoved) > self.wallBound:
+            self.ydistanceMoved = 0
+            self.yspeed = self.yspeed * -1
+        self.rect.x += self.xspeed
+        self.xdistanceMoved += self.xspeed
+        if abs(self.xdistanceMoved) > self.wallBound:
+            self.xdistanceMoved = 0
+            self.xspeed = self.xspeed * -1
+
+
+class Room:
+    # Each room has a list of walls, and of enemy sprites.
+    wall_group = None
+    my_sprites = None
+
+
+    def __init__(self):
+        self.wall_group = pygame.sprite.Group()
+        self.my_sprites = pygame.sprite.Group()
+
+
+class Room1(Room):
+    def __init__(self):
+        super().__init__()
+
+        self.display_surface = pygame.display.set_mode(size)
+        # pygame.display.set_caption('Show Text')
+        # font = pygame.font.Font('freesansbold.ttf', 40)
+        # self.text = font.render('PRESS BUTTON TO START', True, BLACK, RED)
+        # textRect = self.text.get_rect()
+        #
+        # # set the center of the rectangular object.
+        # textRect.center = (X // 2, Y // 7)
+
+       # self.b_group.draw(self.display_surface)
+       # self.display_surface.blit(self.text, textRect)
+
+        # if pygame.mouse.get_pressed()[0] and side_Y4.rect.collidepoint(pygame.mouse.get_pos()):
+        # print("You have opened a chest!")
+
+class Room2(Room):
+    def __init__(self):
+        super().__init__()
+
+        # Make the walls. (x_pos, y_pos, width, height)
+        purple2 = Wall(PURPLE, 20, 500, 80, 0)
+        wall2 = Wall(YELLOW, 400, 20, 0, 550)
+        wall3 = Wall(YELLOW, 240, 20, 80, 480)
+        side3 = Wall(BLACK, 800, 20, 0, -10)
+        vertical_yellow = Wall(YELLOW, 20, 300, 390, 270)
+        verticalY2 = Wall(YELLOW, 20, 300, 300, 200)
+        purple_edge = Wall(PURPLE, 20, 560, 0, 0)
+        wall6 = Wall(GREEN, 20, 580, 300, 20)
+        side1 = Wall(BLACK, 20, 700, -10, 0)
+        side2 = Wall(BLACK, 20, 700, 785, 0)
+        side_Y2m = Wall(GREEN, 420, 20, 300, 190)
+        side_Y3 = Wall(GREEN, 250, 20, 390, 250)
+        last_b2 = Wall(LBLUE, 20, 400, 700, 210)
+        last_b = Wall(LBLUE, 20, 400, 630, 250)
+        side4 = Wall(BLACK, 800, 20, 0, 585)
+        self.movingWall1 = movingWall(BLUE, 20, 20, 450, 175, 2, 0, 100)
+        self.movingWall2 = movingWall(BLUE, 20, 20, 625, 400, 0, 2, 100)
+        self.movingWall3 = movingWall(RED, 20 ,20 ,300, 300, 1, 1, 100)
+        # wall8 = Block(YELLOW, 590, 50, 20, 500)
+        walls = pygame.sprite.Group()
+        walls.add(purple2)
+        walls.add(wall2)
+        walls.add(vertical_yellow)
+        walls.add(purple_edge)
+        walls.add(wall3)
+        walls.add(verticalY2)
+        walls.add(side1)
+        walls.add(side2)
+        walls.add(side3)
+        walls.add(side4)
+        walls.add(side_Y2m)
+        walls.add(side_Y3)
+        walls.add(last_b)
+        walls.add(last_b2)
+        walls.add(self.movingWall1)
+        walls.add(self.movingWall2)
+        walls.add(self.movingWall3)
+
+        self.wall_group = walls
+
+
+def check_and_move(sprite, sprite2):
+    # make the move for the relevant sprite
+    sprite.rect.y += sprite.yspeed
+    sprite.rect.x += sprite.xspeed
+    block_hits = pygame.sprite.spritecollide(sprite, sprite2, False)
+    # check for collisions
+    if len(block_hits) > 0:
+        # returns the block to its spawn point (currently 30,30)
+        sprite.rect.x = 30
+        sprite.rect.y = 30
+        sprite.xspeed = 0
+        sprite.yspeed = 0
+
+
+def victory_wall(sprite, current_room_no):
+    victory_hit = pygame.sprite.spritecollide(sprite, Winners_spot, False)
+    # check for collisions
+    if len(victory_hit) > 0:
+        print("VICTORY")
+        current_room_no+=1
+        sprite.rect.x = 30
+        sprite.rect.y = 30
+        sprite.xspeed = 0
+        sprite.yspeed = 0
+    return current_room_no
+
+
+
+
+######################################################################################
+
+
+# these are the players
+myblock = Block(LBLUE, 20, 20, 55, 50)
+myblock2 = Block(BLUE, 20, 20, 25, 50)
+
+
+
+
+
+Winners_spot = pygame.sprite.Group()
+
+end = Wall(RED, 200, 50, 600, 520)
+
+Winners_spot.add(end)
+
+# this is how the player moves and how it hits the walls
+print("1")
+done = False
+clock = pygame.time.Clock()
+
+
+
+
+rooms = []
+
+r_room = Room1()
+rooms.append(r_room)
+
+rr_room = Room2()
+rooms.append(rr_room)
+
+current_room_no = 0
+current_room = rooms[current_room_no]
+
+
+pygame.init()
+screen = pygame.display.set_mode(size)
+pygame.display.set_caption("please work")
+my_sprites = pygame.sprite.Group()
+my_sprites.add(myblock)
+my_sprites.add(myblock2)
+# Andrews_wall = movingWall(BLUE, 20, 20, 450, 175, 1, 0, 10)
+font = pygame.font.Font('freesansbold.ttf', 40)
+text = font.render('PRESS BUTTON TO START', True, BLACK, RED)
+print("505")
+textRect = text.get_rect()
+current_room.display_surface.blit(text, textRect)
+# set the center of the rectangular object.
+textRect.center = (X // 2, Y // 7)
+
+
+
+while not done:
+    # quitting thing
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+    # create the list of keyPressed (bool)
+    keysPressed = pygame.key.get_pressed()
+    gameSpeed = 1
+    # run through the list and check keys by their ID and run the function for them
+    if keysPressed[pygame.K_UP]:
+        myblock.yspeed -= gameSpeed
+    elif keysPressed[pygame.K_DOWN]:
+        myblock.yspeed += gameSpeed
+    else:
+        myblock.yspeed = 0
+
+    if keysPressed[pygame.K_LEFT]:
+        myblock.xspeed -= gameSpeed
+    elif keysPressed[pygame.K_RIGHT]:
+        myblock.xspeed += gameSpeed
+    else:
+        myblock.xspeed = 0
+
+    if keysPressed[pygame.K_w]:
+        myblock2.yspeed -= gameSpeed
+    elif keysPressed[pygame.K_s]:
+        myblock2.yspeed += gameSpeed
+    else:
+        myblock2.yspeed = 0
+
+    if keysPressed[pygame.K_a]:
+        myblock2.xspeed -= gameSpeed
+    elif keysPressed[pygame.K_d]:
+        myblock2.xspeed += gameSpeed
+    else:
+        myblock2.xspeed = 0
+
+    # myblock.move(current_room.wall_list)
+
+
+
+    if myblock.rect.y > 601:
+        if current_room_no == 0:
+            current_room_no = 1
+            current_room = rooms[current_room_no]
+            myblock.rect.y = 0
+        elif current_room_no == 1:
+            current_room_no = 2
+            current_room = rooms[current_room_no]
+            myblock.rect.y = 0
+        else:
+            current_room_no = 0
+            current_room = rooms[current_room_no]
+            myblock.rect.y = 0
+    print(current_room_no)
+    current_room = rooms[current_room_no]
+    check_and_move(myblock, current_room.wall_group)
+    check_and_move(myblock2, current_room.wall_group)
+    if current_room_no == 1:
+        current_room.movingWall1.updateMovement()
+        current_room.movingWall2.updateMovement()
+        current_room.movingWall3.updateMovement()
+
+    current_room_no = victory_wall(myblock, current_room_no)
+    current_room_no = victory_wall(myblock2, current_room_no)
+    screen.fill(WHITE)
+    my_sprites.draw(screen)
+    Winners_spot.draw(screen)
+    current_room.wall_group.draw(screen)
+
+    if current_room_no == 0:
+        font = pygame.font.Font('freesansbold.ttf', 40)
+        text = font.render('Drive into the Block', True, BLACK, RED)
+        textRect.center = (X // 2, Y // 7)
+        current_room.display_surface.blit(text, textRect)
+
+    # update
+    my_sprites.update()
+    pygame.display.flip()
+    clock.tick(60)
+pygame.quit()
