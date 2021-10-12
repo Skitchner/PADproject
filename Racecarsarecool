@@ -155,10 +155,12 @@ class Room2(Room):
         walls.add(self.movingWall3)
 
         self.wall_group = walls
-
+        
 class Room3(Room):
     def __init__(self):
         super().__init__()
+        
+
 
 def check_and_move(sprite, sprite2):
     # make the move for the relevant sprite
@@ -222,7 +224,7 @@ rooms.append(r_room)
 rr_room = Room2()
 rooms.append(rr_room)
 
-r3_room = Room3()
+r3_room = Room3 
 rooms.append(r3_room)
 
 current_room_no = 0
